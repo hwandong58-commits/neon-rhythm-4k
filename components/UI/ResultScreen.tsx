@@ -19,13 +19,38 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, on
     ? ((stats.perfect * 1 + stats.good * 0.8 + stats.ok * 0.5) / totalHits) * 100 
     : 0;
 
-  let grade = 'F';
-  let gradeColor = COLORS.miss;
-  if (accuracy >= 98) { grade = 'S'; gradeColor = COLORS.perfect; }
-  else if (accuracy >= 95) { grade = 'A'; gradeColor = COLORS.good; }
-  else if (accuracy >= 90) { grade = 'B'; gradeColor = COLORS.ok; }
-  else if (accuracy >= 80) { grade = 'C'; gradeColor = 'orange'; }
-  else if (accuracy >= 70) { grade = 'D'; gradeColor = 'yellow'; }
+  // Advanced ranking system based on score, accuracy, and combo
+  const calculateRank = (stats: GameStats, accuracy: number) => {
+    const score = stats.score;
+    const maxCombo = stats.maxCombo;
+    const perfectRate = totalHits > 0 ? (stats.perfect / totalHits) * 100 : 0;
+
+    // SS Rank: Perfect play
+    if (accuracy === 100 && maxCombo >= 50) return { grade: 'SS', color: '#FFD700', description: '완벽한 플레이!' };
+    
+    // S Rank: Excellent play
+    if (accuracy >= 98 && maxCombo >= 30) return { grade: 'S', color: COLORS.perfect, description: '탁월한 실력!' };
+    if (accuracy >= 95 && score >= 50000) return { grade: 'S', color: COLORS.perfect, description: '탁월한 실력!' };
+    
+    // A Rank: Very good
+    if (accuracy >= 90 && maxCombo >= 20) return { grade: 'A', color: COLORS.good, description: '매우 잘했어요!' };
+    if (accuracy >= 85 && score >= 30000) return { grade: 'A', color: COLORS.good, description: '매우 잘했어요!' };
+    
+    // B Rank: Good
+    if (accuracy >= 80 && maxCombo >= 10) return { grade: 'B', color: COLORS.ok, description: '잘했어요!' };
+    if (accuracy >= 75) return { grade: 'B', color: COLORS.ok, description: '잘했어요!' };
+    
+    // C Rank: Average
+    if (accuracy >= 60) return { grade: 'C', color: 'orange', description: '더 노력해보세요!' };
+    
+    // D Rank: Below average
+    if (accuracy >= 40) return { grade: 'D', color: 'yellow', description: '연습이 필요해요!' };
+    
+    // F Rank: Poor
+    return { grade: 'F', color: COLORS.miss, description: '다시 도전해보세요!' };
+  };
+
+  const rankInfo = calculateRank(stats, accuracy);
 
   const chartData = [
     { name: 'PERFECT', value: stats.perfect, color: COLORS.perfect },
@@ -52,11 +77,14 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, on
             <h2 className="text-3xl font-black text-white mb-2">결과</h2>
             
             <div className="flex flex-col items-center justify-center mb-6">
-                <div className="text-8xl font-black drop-shadow-lg" style={{ color: gradeColor }}>
-                    {grade}
+                <div className="text-8xl font-black drop-shadow-lg" style={{ color: rankInfo.color }}>
+                    {rankInfo.grade}
                 </div>
                 <div className="text-xl font-bold text-gray-400 mt-2">
                     {accuracy.toFixed(2)}%
+                </div>
+                <div className="text-sm text-gray-300 mt-1 text-center">
+                    {rankInfo.description}
                 </div>
             </div>
 
