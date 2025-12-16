@@ -62,5 +62,9 @@ export const StartScreen: React.FC<StartScreenProps> = ({ onStart, onShowRanking
                 onClick={onShowRanking}
                 className="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition"
             >
-                🏆 랭킹 보기
+                랭킹 보기
             </button>
+        </div>
+    </div>
+  );
+};

@@ -74,6 +74,7 @@ export default function App() {
             onRestart={handleRestart}
             onMenu={handleBackToMenu}
             playerName={playerName}
+            onShowRanking={handleShowRanking}
           />
         )}
       </div>

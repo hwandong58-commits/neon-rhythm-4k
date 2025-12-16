@@ -43,7 +43,7 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ onBack }) => {
   return (
     <div className="w-[600px] h-[600px] bg-game-lane border-4 border-game-border rounded-xl flex flex-col p-6 shadow-2xl overflow-y-auto">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-black text-white">🏆 랭킹 보드</h2>
+        <h2 className="text-3xl font-black text-white">랭킹 보드</h2>
         <button
           onClick={onBack}
           className="px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-lg transition"

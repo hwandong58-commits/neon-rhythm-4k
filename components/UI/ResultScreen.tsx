@@ -12,9 +12,10 @@ interface ResultScreenProps {
   onRestart: () => void;
   onMenu: () => void;
   playerName: string;
+  onShowRanking: () => void;
 }
 
-export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, onMenu, playerName }) => {
+export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, onMenu, playerName, onShowRanking }) => {
   const totalHits = stats.perfect + stats.good + stats.ok + stats.miss;
   const accuracy = totalHits > 0 
     ? ((stats.perfect * 1 + stats.good * 0.8 + stats.ok * 0.5) / totalHits) * 100 
@@ -145,16 +146,16 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, on
 
             <div className="w-full flex gap-4 mt-auto">
                 <button 
-                    onClick={onMenu}
+                    onClick={onShowRanking}
                     className="flex-1 py-3 bg-gray-600 hover:bg-gray-500 text-white font-bold rounded-lg flex items-center justify-center transition"
                 >
-                    <Home className="w-5 h-5 mr-2" /> 메뉴
+                    랭킹 보기
                 </button>
                 <button 
-                    onClick={onRestart}
+                    onClick={onMenu}
                     className="flex-1 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg flex items-center justify-center transition shadow-lg shadow-blue-900/50"
                 >
-                    <RotateCcw className="w-5 h-5 mr-2" /> 재시도
+                    처음으로
                 </button>
             </div>
         </div>
