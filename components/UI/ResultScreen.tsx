@@ -16,6 +16,7 @@ interface ResultScreenProps {
 }
 
 export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, onMenu, playerName, onShowRanking }) => {
+  console.log('ResultScreen rendering with stats:', stats);
   const totalHits = stats.perfect + stats.good + stats.ok + stats.miss;
   const accuracy = totalHits > 0 
     ? ((stats.perfect * 1 + stats.good * 0.8 + stats.ok * 0.5) / totalHits) * 100 

@@ -29,8 +29,10 @@ export default function App() {
   };
 
   const handleGameOver = (stats: GameStats) => {
+    console.log('handleGameOver called, setting gameState to ended', stats);
     setFinalStats(stats);
     setGameState('ended');
+    console.log('gameState should now be ended');
   };
 
   const handleRestart = () => {

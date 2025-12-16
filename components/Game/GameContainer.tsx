@@ -77,6 +77,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onGameOver, player
       setTimeLeft(remaining);
 
       if (remaining <= 0) {
+        console.log('Game ended! Calling endGame()');
         endGame();
         return;
       }
@@ -178,6 +179,7 @@ export const GameContainer: React.FC<GameContainerProps> = ({ onGameOver, player
   };
 
   const endGame = () => {
+    console.log('endGame called, calling onGameOver');
     isRunningRef.current = false;
     if (requestRef.current) cancelAnimationFrame(requestRef.current);
     statsRef.current.maxCombo = Math.max(statsRef.current.maxCombo, combo);
