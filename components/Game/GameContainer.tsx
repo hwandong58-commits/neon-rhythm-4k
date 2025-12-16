@@ -21,6 +21,7 @@ import { ScorePanel } from '../UI/ScorePanel';
 
 interface GameContainerProps {
   onGameOver: (stats: GameStats) => void;
+  playerName: string;
 }
 
 interface HitEffect {
@@ -30,7 +31,7 @@ interface HitEffect {
     judgement: Judgement;
 }
 
-export const GameContainer: React.FC<GameContainerProps> = ({ onGameOver }) => {
+export const GameContainer: React.FC<GameContainerProps> = ({ onGameOver, playerName }) => {
   // Game State
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION_SEC);
   const [score, setScore] = useState(0);

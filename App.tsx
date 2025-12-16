@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { GameContainer } from './components/Game/GameContainer';
 import { ResultScreen } from './components/UI/ResultScreen';
 import { StartScreen } from './components/UI/StartScreen';
+import { RankingScreen } from './components/UI/RankingScreen';
 import { GameState, GameStats } from './types';
 import * as Tone from 'tone';
 
@@ -19,8 +20,10 @@ const INITIAL_STATS: GameStats = {
 export default function App() {
   const [gameState, setGameState] = useState<GameState>('idle');
   const [finalStats, setFinalStats] = useState<GameStats>(INITIAL_STATS);
+  const [playerName, setPlayerName] = useState<string>('');
 
-  const handleStart = async () => {
+  const handleStart = async (name: string) => {
+    setPlayerName(name);
     await Tone.start();
     setGameState('playing');
   };
@@ -38,6 +41,14 @@ export default function App() {
     setGameState('idle');
   };
 
+  const handleShowRanking = () => {
+    setGameState('ranking');
+  };
+
+  const handleBackFromRanking = () => {
+    setGameState('idle');
+  };
+
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
       <div className="text-3xl font-black mb-6 text-game-note tracking-wider shadow-cyan-500/50 drop-shadow-lg">
@@ -46,11 +57,15 @@ export default function App() {
 
       <div className="w-full max-w-5xl flex flex-col md:flex-row gap-8 items-center md:items-start justify-center">
         {gameState === 'idle' && (
-          <StartScreen onStart={handleStart} />
+          <StartScreen onStart={handleStart} onShowRanking={handleShowRanking} />
+        )}
+
+        {gameState === 'ranking' && (
+          <RankingScreen onBack={handleBackFromRanking} />
         )}
 
         {gameState === 'playing' && (
-          <GameContainer onGameOver={handleGameOver} />
+          <GameContainer onGameOver={handleGameOver} playerName={playerName} />
         )}
 
         {gameState === 'ended' && (
@@ -58,6 +73,7 @@ export default function App() {
             stats={finalStats} 
             onRestart={handleRestart}
             onMenu={handleBackToMenu}
+            playerName={playerName}
           />
         )}
       </div>

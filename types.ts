@@ -1,4 +1,4 @@
-export type GameState = 'idle' | 'playing' | 'ended';
+export type GameState = 'idle' | 'playing' | 'ended' | 'ranking';
 
 export type KeyType = 'd' | 'f' | 'j' | 'k';
 
@@ -26,6 +26,17 @@ export interface GameStats {
   maxCombo: number;
   score: number;
   history: HitHistoryItem[];
+}
+
+export interface PlayerRecord {
+  id: string;
+  name: string;
+  score: number;
+  accuracy: number;
+  grade: string;
+  maxCombo: number;
+  date: string;
+  totalHits: number;
 }
 
 export const KEYS: KeyType[] = ['d', 'f', 'j', 'k'];
