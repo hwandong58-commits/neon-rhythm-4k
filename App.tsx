@@ -22,6 +22,10 @@ export default function App() {
   const [finalStats, setFinalStats] = useState<GameStats>(INITIAL_STATS);
   const [playerName, setPlayerName] = useState<string>('');
 
+  React.useEffect(() => {
+    console.log('App gameState changed to:', gameState);
+  }, [gameState]);
+
   const handleStart = async (name: string) => {
     setPlayerName(name);
     await Tone.start();

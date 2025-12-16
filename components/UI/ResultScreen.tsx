@@ -22,31 +22,6 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, on
     ? ((stats.perfect * 1 + stats.good * 0.8 + stats.ok * 0.5) / totalHits) * 100 
     : 0;
 
-  // Save result to localStorage
-  React.useEffect(() => {
-    if (playerName && totalHits > 0) {
-      const record = {
-        id: Date.now().toString(),
-        name: playerName,
-        score: stats.score,
-        accuracy: parseFloat(accuracy.toFixed(2)),
-        grade: rankInfo.grade,
-        maxCombo: stats.maxCombo,
-        date: new Date().toISOString(),
-        totalHits
-      };
-
-      const existingRecords = JSON.parse(localStorage.getItem('rhythmGameRecords') || '[]');
-      existingRecords.push(record);
-      
-      // Sort by accuracy descending and keep top 50
-      existingRecords.sort((a: any, b: any) => b.accuracy - a.accuracy);
-      const topRecords = existingRecords.slice(0, 50);
-      
-      localStorage.setItem('rhythmGameRecords', JSON.stringify(topRecords));
-    }
-  }, [playerName, stats, accuracy, rankInfo.grade]);
-
   // Advanced ranking system based on score, accuracy, and combo
   const calculateRank = (stats: GameStats, accuracy: number) => {
     const score = stats.score;
@@ -80,8 +55,32 @@ export const ResultScreen: React.FC<ResultScreenProps> = ({ stats, onRestart, on
 
   const rankInfo = calculateRank(stats, accuracy);
 
+  // Save result to localStorage
+  React.useEffect(() => {
+    if (playerName && totalHits > 0) {
+      const record = {
+        id: Date.now().toString(),
+        name: playerName,
+        score: stats.score,
+        accuracy: parseFloat(accuracy.toFixed(2)),
+        grade: rankInfo.grade,
+        maxCombo: stats.maxCombo,
+        date: new Date().toISOString(),
+        totalHits
+      };
+
+      const existingRecords = JSON.parse(localStorage.getItem('rhythmGameRecords') || '[]');
+      existingRecords.push(record);
+      
+      // Sort by accuracy descending and keep top 50
+      existingRecords.sort((a: any, b: any) => b.accuracy - a.accuracy);
+      const topRecords = existingRecords.slice(0, 50);
+      
+      localStorage.setItem('rhythmGameRecords', JSON.stringify(topRecords));
+    }
+  }, [playerName, stats, accuracy, rankInfo.grade]);
+
   const chartData = [
-    { name: 'PERFECT', value: stats.perfect, color: COLORS.perfect },
     { name: 'GOOD', value: stats.good, color: COLORS.good },
     { name: 'OK', value: stats.ok, color: COLORS.ok },
     { name: 'MISS', value: stats.miss, color: COLORS.miss },
