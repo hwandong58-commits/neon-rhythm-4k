@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
-      base: '/-/', // GitHub Pages 배포를 위한 base 경로
+      base: '/neon-rhythm-4k/', // 새 리포지토리 이름으로 변경
       server: {
         port: 3000,
         host: '0.0.0.0',
